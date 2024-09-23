@@ -83,7 +83,7 @@ or
 From the command line, run:
  ecryptfs-mount-private
 ```
-
+![alt text](https://github.com/Daark46/Host/blob/main/1.png)
 
 ### Задание 2
 
