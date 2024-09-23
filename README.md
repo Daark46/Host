@@ -97,4 +97,52 @@ From the command line, run:
 
 ### Ответ 2
 
+1. Установите поддержку LUKS
+```
+sudo apt install cryptsetup 
 
+cryptsetup --version
+```
+
+2. Создайте небольшой раздел, например, 100 Мб.
+```
+lsblk
+sudo fdisk /dev/sdb
+n
+p
+i
+w
+lsblk
+```
+
+3. Зашифруйте созданный раздел с помощью LUKS.
+
+```
+sudo cryptsetup -y -v --type luks2 luksFormat /dev/sdb1
+```
+![alt text](https://github.com/Daark46/Host/blob/main/2.png)
+
+```
+sudo cryptsetup luksOpen /dev/sdb1 disk
+ls /dev/mapper/disk
+```
+![alt text](https://github.com/Daark46/Host/blob/main/3.png)
+
+```
+sudo dd if=/dev/zero of=/dev/mapper/disk
+sudo mkfs.ext4 /dev/mapper/disk
+```
+![alt text](https://github.com/Daark46/Host/blob/main/4.png)
+
+```
+mkdir .secret
+sudo mount /dev/mapper/disk .secret/
+```
+![alt text](https://github.com/Daark46/Host/blob/main/5.png)
+
+```
+sudo umount .secret
+sudo cryptsetup luksClose disk
+```
+![alt text](https://github.com/Daark46/Host/blob/main/6.png)
+![alt text](https://github.com/Daark46/Host/blob/main/7.png)
