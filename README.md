@@ -36,7 +36,53 @@
 
 ### Ответ 1
 
+1. Установите eCryptfs
+```
+sudo apt install ecryptfs-utils  lsof
 
+sudo modprobe ecryptfs
+```
+2. Добавьте пользователя cryptouser
+
+```
+sudo adduser cryptouser
+
+sudo usermod -aG sudo cryptouser
+```
+
+3. Зашифруйте домашний каталог пользователя с помощью eCryptfs
+
+```
+sudo ecryptfs-migrate-home -u cryptouser
+sudo ls /home/
+su cryptouser
+cd ~
+ecryptfs-unwrap-passphrase
+sudo ecryptfs-setup-swap
+sudo rm -Rf /home/cryptouser.7LC6DOKx/
+sudo ls /home/cryptouser/
+
+sudo cat /home/cryptouser/Access-Your-Private-Data.desktop
+[Desktop Entry]
+_Name=Access Your Private Data
+_GenericName=Access Your Private Data
+Exec=/usr/bin/ecryptfs-mount-private
+Terminal=true
+Type=Application
+Categories=System;Security;
+X-Ubuntu-Gettext-Domain=ecryptfs-utils
+
+sudo cat /home/cryptouser/README.txt
+THIS DIRECTORY HAS BEEN UNMOUNTED TO PROTECT YOUR DATA.
+
+From the graphical desktop, click on:
+ "Access Your Private Data"
+
+or
+
+From the command line, run:
+ ecryptfs-mount-private
+```
 
 
 ### Задание 2
